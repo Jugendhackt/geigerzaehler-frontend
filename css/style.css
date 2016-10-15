@@ -1,11 +1,17 @@
+body{
+    margin: 0px;
+}
 #map {
     width: 100%; height: 100vh;
 }
 h1{
+    width: 100%;
+    margin-top: 5px;
     text-align: center;
     height: 7%;
     position: fixed;
     z-index: 2;
+    color: #1b6d85;
 }
 body {
     font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;

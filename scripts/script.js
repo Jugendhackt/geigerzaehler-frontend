@@ -6,7 +6,7 @@ var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 var heat = null;
 function scale(ms) {
-    var push = ms / 150;
+    var push = ms / 15;
     if (push > 1)
         push = 1;
     //push = Math.round(push);
@@ -20,19 +20,16 @@ $.ajax({
     dataType: 'json',
     success: function(result) {
         const points = [];
+        console.log(result.length)
         for (var i = 0; i < result.length; i++) {
             var point = result[i]["location"]["coordinates"];
             var sc = scale(result[i]["uSv"]);
             point.push(sc);
-                var marker = L.marker(point);
-                marker.addTo(map);
-                marker.bindPopup(point[0] + " : " + point[1]);
             points[i] = point;
         }
         for(i=0; i < points.length; i++){
             console.log(points[i]);
         }
-
-        heat = L.heatLayer(points, {radius: 20, maxZoom: 7}).addTo(map);
+        L.heatLayer(points, {radius: 20, maxZoom: 1}).addTo(map);
     }
 });

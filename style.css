@@ -1,4 +1,17 @@
-#map { width: 800px; height: 600px; }
-body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
-.ghbtns { position: relative; top: 4px; margin-left: 5px; }
-a { color: #0077ff; }
+#map {
+    width: 100%; height: 100vh;
+}
+h1{
+    text-align: center;
+    height: 7%;
+    position: fixed;
+    z-index: 2;
+}
+body {
+    font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
+}
+.ghbtns { position: relative; top: 4px; margin-left: 5px;
+}
+a {
+    color: #0077ff;
+}

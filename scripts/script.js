@@ -1,15 +1,17 @@
-var map = L.map('map').setView([52, 13], 4);
+"use strict"
+var map = L.map('map').setView([52, 13], 6);
 var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
 var heat = null;
 function scale(ms) {
-    var push;
-    push = ms / 15;
+    var push = ms / 150;
     if (push > 1)
         push = 1;
+    //push = Math.round(push);
     return push;
+    //Maxvalue 15 mSv
 }
 
 $.ajax({
@@ -17,16 +19,20 @@ $.ajax({
     type: "GET",
     dataType: 'json',
     success: function(result) {
-        var points = [];
+        const points = [];
         for (var i = 0; i < result.length; i++) {
             var point = result[i]["location"]["coordinates"];
-            point.push(scale(result[i]["mSv"]));
-
-            //for (var j = 0; j < result[i]["count"]; j++)
-                points.push(point);
-            //Maxwert 15 Millisivert
+            var sc = scale(result[i]["uSv"]);
+            point.push(sc);
+                var marker = L.marker(point);
+                marker.addTo(map);
+                marker.bindPopup(point[0] + " : " + point[1]);
+            points[i] = point;
+        }
+        for(i=0; i < points.length; i++){
+            console.log(points[i]);
         }
 
-        heat = L.heatLayer(points, {radius: 20, maxZoom: 5}).addTo(map);
+        heat = L.heatLayer(points, {radius: 20, maxZoom: 7}).addTo(map);
     }
 });

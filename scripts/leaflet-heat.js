@@ -129,6 +129,13 @@ L.HeatLayer = (L.Layer ? L.Layer : L.Class).extend({
         this._redraw();
     },
 
+    _getAvg: function (list) {
+		return list.reduce(function (p, c) {
+		return p + c;
+		}) / list.length;
+	},
+
+
     _redraw: function () {
         if (!this._map) {
             return;
@@ -166,21 +173,27 @@ L.HeatLayer = (L.Layer ? L.Layer : L.Class).extend({
                 cell = grid[y][x];
 
                 if (!cell) {
-                    grid[y][x] = [p.x, p.y, [k]];
+                    grid[y][x] = [[p.x], [p.y], [k]];
 
                 } else {
-                    cell[0] = (cell[0] * cell[2] + p.x * k) / (cell[2] + k); // x
-                    cell[1] = (cell[1] * cell[2] + p.y * k) / (cell[2] + k); // y
+                    cell[0].push(p.x); // x
+                    cell[1].push(p.y); // y
                     cell[2].push(k); // cumulated intensity value
                 }
             }
         }
 
+
+
         for (y in grid) {
         	for (x in grid[y]) {
-        		grid[y][x][2] = grid[y][x][2] / grid[y][x][2].length;
+        		grid[y][x][0] = this._getAvg(grid[y][x][0]);
+        		grid[y][x][1] = this._getAvg(grid[y][x][1]);
+        		grid[y][x][2] = this._getAvg(grid[y][x][2]);
         	}
         }
+
+
 
         for (i = 0, len = grid.length; i < len; i++) {
             if (grid[i]) {

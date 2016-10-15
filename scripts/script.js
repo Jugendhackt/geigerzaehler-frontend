@@ -27,9 +27,7 @@ $.ajax({
             point.push(sc);
             points[i] = point;
         }
-        for(i=0; i < points.length; i++){
-            console.log(points[i]);
-        }
-        L.heatLayer(points, {radius: 20, maxZoom: 1}).addTo(map);
+        console.log(points);
+        L.heatLayer(points, {radius: 40, maxZoom: 1}).addTo(map);
     }
 });

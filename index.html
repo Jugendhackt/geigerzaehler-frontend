@@ -15,42 +15,15 @@
 
 <div id="map"></div>
 
-<script src="leaflet-heat-test.js"></script>
-
-<script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>  <!-- Müssen später die Daten ergeben -->
+<script src="leaflet-heat.js"></script> <!-- defining the colors etc. on the map -->
+<script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>  <!-- example data -->
 <script>
-var testData = {
-  max: 8,
-  data: [{lat: 24.6408, lng:46.7728, count: 3},{lat: 50.75, lng:-1.55, count: 1}, ...]
-};
-
-var baseLayer = L.tileLayer(
-  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution: '...',
-    maxZoom: 18
-  }
-);
-
-var cfg = {
-  "radius": 2,
-  "maxOpacity": .8, 
-  "scaleRadius": true, 
-  "useLocalExtrema": true,
-  latField: 'lat',
-  lngField: 'lng',
-  valueField: 'count'
-};
-
-
-var heatmapLayer = new HeatmapOverlay(cfg);
-
-var map = new L.Map('map-canvas', {
-  center: new L.LatLng(25.6586, -80.3568),
-  zoom: 4,
-  layers: [baseLayer, heatmapLayer]
-});
-
-heatmapLayer.setData(testData);
+var map = L.map('map').setView([-37.87, 175.475], 12);
+var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+}).addTo(map);
+addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+var heat = L.heatLayer(addressPoints).addTo(map);
 </script>
 </body>
 </html>
